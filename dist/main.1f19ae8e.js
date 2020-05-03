@@ -125,6 +125,7 @@ var lastPoint = {
   x: undefined,
   y: undefined
 };
+var wipe = false;
 var eraserEnabled = false;
 
 eraser.onclick = function () {
@@ -154,7 +155,11 @@ canvas.onmousedown = function (aaa) {
   var y = aaa.clientY;
 
   if (eraserEnabled) {
-    content.clearRect(x - 5, y - 5, 10, 10);
+    wipe = true;
+
+    if (wipe) {
+      content.clearRect(x - 5, y - 5, 10, 10);
+    }
   } else {
     using = true;
     lastPoint = {
@@ -169,7 +174,9 @@ canvas.onmousemove = function (aaa) {
   var y = aaa.clientY;
 
   if (eraserEnabled) {
-    content.clearRect(x - 5, y - 5, 10, 10);
+    if (wipe) {
+      content.clearRect(x - 5, y - 5, 10, 10);
+    }
   } else {
     if (using) {
       var newPoint = {
@@ -184,6 +191,7 @@ canvas.onmousemove = function (aaa) {
 
 canvas.onmouseup = function (aaa) {
   using = false;
+  wipe = false;
 };
 },{}],"C:/Users/32774/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -213,7 +221,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4448" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8473" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
