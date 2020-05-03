@@ -1,9 +1,13 @@
 let canvas = document.getElementById('canvas')
-
 let content = canvas.getContext('2d')
-let painting = false
+let using = false
 let lastPoint= {x:undefined,y:undefined}
 
+let eraserEnabled=false
+
+eraser.onclick=function(){
+  eraserEnabled=!eraserEnabled
+}
 window.onresize = function () {
   let pageWidth = document.documentElement.clientWidth
   let pageHeight = document.documentElement.clientHeight
@@ -24,20 +28,32 @@ function drawLine(x1,y1,x2,y2) {
  }
 
 canvas.onmousedown = function (aaa) {
-painting=true
   let x = aaa.clientX
   let y = aaa.clientY
-  lastPoint={x:x,y:y}
+  if(eraserEnabled){
+    content.clearRect(x-5, y-5, 10, 10)
+  }else{
+    using=true
+
+    lastPoint={x:x,y:y}
+  }
+
 }
 canvas.onmousemove = function (aaa) {
-  if(painting){
-    let x = aaa.clientX
-    let y = aaa.clientY
-    let newPoint={x:x,y:y}
-    drawLine(lastPoint.x,lastPoint.y,x,y)
-    lastPoint=newPoint
+  let x = aaa.clientX
+  let y = aaa.clientY
+  if(eraserEnabled){
+    content.clearRect(x-5, y-5, 10, 10)
+  }else{
+    if(using){
+
+      let newPoint={x:x,y:y}
+      drawLine(lastPoint.x,lastPoint.y,x,y)
+      lastPoint=newPoint
+    }
   }
+
 }
 canvas.onmouseup = function (aaa) {
-  painting = false
+  using = false
 }

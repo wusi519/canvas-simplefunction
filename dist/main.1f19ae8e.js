@@ -120,10 +120,15 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"main.js":[function(require,module,exports) {
 var canvas = document.getElementById('canvas');
 var content = canvas.getContext('2d');
-var painting = false;
+var using = false;
 var lastPoint = {
   x: undefined,
   y: undefined
+};
+var eraserEnabled = false;
+
+eraser.onclick = function () {
+  eraserEnabled = !eraserEnabled;
 };
 
 window.onresize = function () {
@@ -145,30 +150,40 @@ function drawLine(x1, y1, x2, y2) {
 }
 
 canvas.onmousedown = function (aaa) {
-  painting = true;
   var x = aaa.clientX;
   var y = aaa.clientY;
-  lastPoint = {
-    x: x,
-    y: y
-  };
-};
 
-canvas.onmousemove = function (aaa) {
-  if (painting) {
-    var x = aaa.clientX;
-    var y = aaa.clientY;
-    var newPoint = {
+  if (eraserEnabled) {
+    content.clearRect(x - 5, y - 5, 10, 10);
+  } else {
+    using = true;
+    lastPoint = {
       x: x,
       y: y
     };
-    drawLine(lastPoint.x, lastPoint.y, x, y);
-    lastPoint = newPoint;
+  }
+};
+
+canvas.onmousemove = function (aaa) {
+  var x = aaa.clientX;
+  var y = aaa.clientY;
+
+  if (eraserEnabled) {
+    content.clearRect(x - 5, y - 5, 10, 10);
+  } else {
+    if (using) {
+      var newPoint = {
+        x: x,
+        y: y
+      };
+      drawLine(lastPoint.x, lastPoint.y, x, y);
+      lastPoint = newPoint;
+    }
   }
 };
 
 canvas.onmouseup = function (aaa) {
-  painting = false;
+  using = false;
 };
 },{}],"C:/Users/32774/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -198,7 +213,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1856" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4448" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

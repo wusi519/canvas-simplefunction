@@ -4,9 +4,15 @@
   box-sizing: border-box;
 }
 #canvas {
-  backgroud: green;
   display: block;
  }
 
+
+.actions{
+  border:1px solid red;
+  position:fixed;
+  top:10px;
+  left:100px;
+}
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
