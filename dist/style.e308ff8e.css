@@ -6,6 +6,12 @@
   box-sizing: border-box;
 }
 
+ul, ol {
+  list-style: none;
+}
+body{
+  overflow:hidden;
+}
 #canvas {
   display: block;
 }
@@ -21,8 +27,8 @@
 .actions svg {
   width: 1.6em;
   height: 1.6em;
-  margin-left:20px;
-  transition:all 0.3s;
+  margin-left: 20px;
+  transition: all 0.3s;
 }
 
 .icon {
@@ -38,5 +44,56 @@
   transform: scale(1.3)
 }
 
+.colors {
+  position: fixed;
+  top: 59px;
+  left: 30px;
+  display: flex;
+  }
+
+.colors > li {
+  width: 20px;
+  height: 20px;
+  border-radius:50%;
+  margin-right:20px;
+  justify-content:center;
+  box-shadow:0 0 3px rgba(0,0,0,0.25);
+  transition:all 0.3s;
+}
+.black{
+  background: black;
+}
+.red{
+  background: #DC143C;
+}
+.green{
+  background: #228B22;
+}
+.blue{
+  background: #008080;
+}
+
+.colors>li.active{
+  transform:scale(1.3);
+}
+
+.sizes{
+  position:fixed;
+  right:33px;
+  top:5px;
+}
+.sizes>li{
+  margin-top:24px;
+}
+.thin{
+  height:0;
+  width:20px;
+  border-top:3px solid black;
+}
+.thick{
+  height:0;
+  width:20px;
+  border-top:10px solid black;
+}
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
