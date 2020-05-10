@@ -27,6 +27,7 @@ function listenToUser(canvas) {
   let lastPoint = {x: undefined, y: undefined}
   let lineWidth = 5
 
+
   brush.onclick = function () {
     eraserClicked = false
     brush.classList.add('active')
@@ -75,8 +76,12 @@ function listenToUser(canvas) {
 
   thin.onclick = function () {
     lineWidth = 5
+    thin.classList.add('active')
+    thick.classList.remove('active')
   }
   thick.onclick = function () {
+    thick.classList.add('active')
+    thin.classList.remove('active')
     lineWidth = 15
   }
 
@@ -85,8 +90,8 @@ function listenToUser(canvas) {
     let a = document.createElement('a')
     document.body.appendChild(a)
     a.href = url
-    a.download='my picture'
-    a.target='_blank'
+    a.download = 'my picture'
+    a.target = '_blank'
     a.click()
   }
 
@@ -98,7 +103,7 @@ function listenToUser(canvas) {
       if (eraserClicked) {
         eraserUsing = true
         if (eraserUsing) {
-          context.clearRect(x - 5, y - 5, 10, 10)
+          context.clearRect(x - 10, y - 10, 20, 20)
         }
       } else {
         lastPoint = {x: x, y: y}
@@ -110,7 +115,7 @@ function listenToUser(canvas) {
       let newPoint = {x: x, y: y}
       if (eraserClicked) {
         if (eraserUsing) {
-          context.clearRect(x - 5, y - 5, 10, 10)
+          context.clearRect(x - 10, y - 10, 20, 20)
         }
       } else {
         if (useBrush === true) {
@@ -164,6 +169,7 @@ function listenToUser(canvas) {
     context.lineTo(x2, y2)
     context.stroke()
     context.lineWidth = lineWidth
+    context.lineCap = 'round'
   }
 }
 

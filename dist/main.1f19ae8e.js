@@ -197,9 +197,13 @@ function listenToUser(canvas) {
 
   thin.onclick = function () {
     lineWidth = 5;
+    thin.classList.add('active');
+    thick.classList.remove('active');
   };
 
   thick.onclick = function () {
+    thick.classList.add('active');
+    thin.classList.remove('active');
     lineWidth = 15;
   };
 
@@ -223,7 +227,7 @@ function listenToUser(canvas) {
         eraserUsing = true;
 
         if (eraserUsing) {
-          context.clearRect(x - 5, y - 5, 10, 10);
+          context.clearRect(x - 10, y - 10, 20, 20);
         }
       } else {
         lastPoint = {
@@ -243,7 +247,7 @@ function listenToUser(canvas) {
 
       if (eraserClicked) {
         if (eraserUsing) {
-          context.clearRect(x - 5, y - 5, 10, 10);
+          context.clearRect(x - 10, y - 10, 20, 20);
         }
       } else {
         if (useBrush === true) {
@@ -311,6 +315,7 @@ function listenToUser(canvas) {
     context.lineTo(x2, y2);
     context.stroke();
     context.lineWidth = lineWidth;
+    context.lineCap = 'round';
   }
 }
 
