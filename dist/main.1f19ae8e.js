@@ -119,13 +119,20 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"main.js":[function(require,module,exports) {
 var canvas = document.getElementById('canvas');
+var eraser = document.getElementById('eraser');
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
 var context = canvas.getContext('2d');
 var useBrush = false;
+var eraserClicked = false;
+var eraserUsing = false;
 var lastPoint = {
   x: undefined,
   y: undefined
+};
+
+eraser.onclick = function () {
+  eraserClicked = !eraserClicked;
 };
 
 function drawLine(x1, y1, x2, y2) {
@@ -140,10 +147,19 @@ canvas.onmousedown = function (e) {
   useBrush = true;
   var x = e.clientX;
   var y = e.clientY;
-  lastPoint = {
-    x: x,
-    y: y
-  };
+
+  if (eraserClicked) {
+    eraserUsing = true;
+
+    if (eraserUsing) {
+      context.clearRect(x, y, 10, 10);
+    }
+  } else {
+    lastPoint = {
+      x: x,
+      y: y
+    };
+  }
 };
 
 canvas.onmousemove = function (e) {
@@ -154,15 +170,22 @@ canvas.onmousemove = function (e) {
     y: y
   };
 
-  if (useBrush === true) {
-    drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
-  }
+  if (eraserClicked) {
+    if (eraserUsing) {
+      context.clearRect(x, y, 10, 10);
+    }
+  } else {
+    if (useBrush === true) {
+      drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+    }
 
-  lastPoint = newPoint;
+    lastPoint = newPoint;
+  }
 };
 
 canvas.onmouseup = function (aaa) {
   useBrush = false;
+  eraserUsing = false;
 };
 },{}],"C:/Users/32774/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

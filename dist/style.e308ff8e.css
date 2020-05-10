@@ -5,10 +5,15 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-#canvas{
+
+#canvas {
   display: block;
+}
 
-
+button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
