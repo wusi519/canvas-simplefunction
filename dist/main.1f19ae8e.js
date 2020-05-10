@@ -120,73 +120,138 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"main.js":[function(require,module,exports) {
 var canvas = document.getElementById('canvas');
 var eraser = document.getElementById('eraser');
-canvas.width = document.documentElement.clientWidth;
-canvas.height = document.documentElement.clientHeight;
-var context = canvas.getContext('2d');
-var useBrush = false;
-var eraserClicked = false;
-var eraserUsing = false;
-var lastPoint = {
-  x: undefined,
-  y: undefined
-};
+autoSetCanvasSize(canvas);
+listenToUser(canvas);
 
-eraser.onclick = function () {
-  eraserClicked = !eraserClicked;
-};
-
-function drawLine(x1, y1, x2, y2) {
-  context.beginPath();
-  context.moveTo(x1, y1);
-  context.lineTo(x2, y2);
-  context.stroke();
-  context.lineWidth = 10;
-}
-
-canvas.onmousedown = function (e) {
-  useBrush = true;
-  var x = e.clientX;
-  var y = e.clientY;
-
-  if (eraserClicked) {
-    eraserUsing = true;
-
-    if (eraserUsing) {
-      context.clearRect(x, y, 10, 10);
-    }
-  } else {
-    lastPoint = {
-      x: x,
-      y: y
-    };
-  }
-};
-
-canvas.onmousemove = function (e) {
-  var x = e.clientX;
-  var y = e.clientY;
-  var newPoint = {
-    x: x,
-    y: y
+function listenToUser(canvas) {
+  var context = canvas.getContext('2d');
+  var useBrush = false;
+  var eraserClicked = false;
+  var eraserUsing = false;
+  var lastPoint = {
+    x: undefined,
+    y: undefined
   };
 
-  if (eraserClicked) {
-    if (eraserUsing) {
-      context.clearRect(x, y, 10, 10);
-    }
-  } else {
-    if (useBrush === true) {
-      drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
-    }
+  eraser.onclick = function () {
+    eraserClicked = !eraserClicked;
+  };
 
-    lastPoint = newPoint;
+  function drawLine(x1, y1, x2, y2) {
+    context.beginPath();
+    context.moveTo(x1, y1);
+    context.lineTo(x2, y2);
+    context.stroke();
+    context.lineWidth = 10;
   }
-};
 
-canvas.onmouseup = function (aaa) {
-  useBrush = false;
-  eraserUsing = false;
-};
+  if (document.body.ontouchstart !== undefined) {
+    canvas.ontouchstart = function (e) {
+      useBrush = true;
+      var x = e.touches[0].clientX;
+      var y = e.touches[0].clientY;
+
+      if (eraserClicked) {
+        eraserUsing = true;
+
+        if (eraserUsing) {
+          context.clearRect(x - 5, y - 5, 10, 10);
+        }
+      } else {
+        lastPoint = {
+          x: x,
+          y: y
+        };
+      }
+    };
+
+    canvas.ontouchmove = function (e) {
+      var x = e.touches[0].clientX;
+      var y = e.touches[0].clientY;
+      var newPoint = {
+        x: x,
+        y: y
+      };
+
+      if (eraserClicked) {
+        if (eraserUsing) {
+          context.clearRect(x - 5, y - 5, 10, 10);
+        }
+      } else {
+        if (useBrush === true) {
+          drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+        }
+
+        lastPoint = newPoint;
+      }
+    };
+
+    canvas.ontouchend = function () {
+      useBrush = false;
+      eraserUsing = false;
+    };
+  } else {
+    canvas.onmousedown = function (e) {
+      useBrush = true;
+      var x = e.clientX;
+      var y = e.clientY;
+
+      if (eraserClicked) {
+        eraserUsing = true;
+
+        if (eraserUsing) {
+          context.clearRect(x - 5, y - 5, 10, 10);
+        }
+      } else {
+        lastPoint = {
+          x: x,
+          y: y
+        };
+      }
+    };
+
+    canvas.onmousemove = function (e) {
+      var x = e.clientX;
+      var y = e.clientY;
+      var newPoint = {
+        x: x,
+        y: y
+      };
+
+      if (eraserClicked) {
+        if (eraserUsing) {
+          context.clearRect(x - 5, y - 5, 10, 10);
+        }
+      } else {
+        if (useBrush === true) {
+          drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+        }
+
+        lastPoint = newPoint;
+      }
+    };
+
+    canvas.onmouseup = function (aaa) {
+      useBrush = false;
+      eraserUsing = false;
+    };
+  }
+}
+
+function autoSetCanvasSize() {
+  setCanvasSize();
+
+  window.onresize = function () {
+    setCanvasSize();
+  };
+
+  function setCanvasSize() {
+    var pageWidth = document.documentElement.clientWidth;
+    var pageHeight = document.documentElement.clientHeight;
+    canvas.width = pageWidth;
+    canvas.height = pageHeight;
+  }
+}
 },{}],"C:/Users/32774/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
