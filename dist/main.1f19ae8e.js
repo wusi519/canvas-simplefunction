@@ -120,6 +120,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"main.js":[function(require,module,exports) {
 var canvas = document.getElementById('canvas');
 var eraser = document.getElementById('eraser');
+var brush = document.getElementById('brush');
 autoSetCanvasSize(canvas);
 listenToUser(canvas);
 
@@ -133,8 +134,16 @@ function listenToUser(canvas) {
     y: undefined
   };
 
+  brush.onclick = function () {
+    eraserClicked = false;
+    brush.classList.add('active');
+    eraser.classList.remove('active');
+  };
+
   eraser.onclick = function () {
-    eraserClicked = !eraserClicked;
+    eraserClicked = true;
+    eraser.classList.add('active');
+    brush.classList.remove('active');
   };
 
   function drawLine(x1, y1, x2, y2) {

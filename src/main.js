@@ -1,8 +1,10 @@
 let canvas = document.getElementById('canvas')
 let eraser = document.getElementById('eraser')
+let brush = document.getElementById('brush')
 
 autoSetCanvasSize(canvas)
 listenToUser(canvas)
+
 
 function listenToUser(canvas) {
   let context = canvas.getContext('2d')
@@ -10,8 +12,16 @@ function listenToUser(canvas) {
   let eraserClicked = false
   let eraserUsing = false
   let lastPoint = {x: undefined, y: undefined}
+
+  brush.onclick = function () {
+    eraserClicked = false
+    brush.classList.add('active')
+    eraser.classList.remove('active')
+  }
   eraser.onclick = function () {
-    eraserClicked = !eraserClicked
+    eraserClicked = true
+    eraser.classList.add('active')
+    brush.classList.remove('active')
   }
 
   function drawLine(x1, y1, x2, y2) {
