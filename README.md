@@ -1,5 +1,7 @@
 # canvas-simplefunction
 
+画板支持移动端/电脑端
+
 <ol>
 <strong>画板功能介绍</strong>
 <li>4种颜色切换,默认为黑色</li>
