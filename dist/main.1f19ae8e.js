@@ -119,79 +119,50 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"main.js":[function(require,module,exports) {
 var canvas = document.getElementById('canvas');
-var content = canvas.getContext('2d');
-var using = false;
+canvas.width = document.documentElement.clientWidth;
+canvas.height = document.documentElement.clientHeight;
+var context = canvas.getContext('2d');
+var useBrush = false;
 var lastPoint = {
   x: undefined,
   y: undefined
 };
-var wipe = false;
-var eraserEnabled = false;
-
-eraser.onclick = function () {
-  eraserEnabled = !eraserEnabled;
-};
-
-window.onresize = function () {
-  var pageWidth = document.documentElement.clientWidth;
-  var pageHeight = document.documentElement.clientHeight;
-  canvas.width = pageWidth;
-  canvas.height = pageHeight;
-};
-
-window.onresize(undefined);
 
 function drawLine(x1, y1, x2, y2) {
-  content.beginPath();
-  content.moveTo(x1, y1);
-  content.lineTo(x2, y2);
-  content.lineWidth = 5;
-  content.closePath();
-  content.stroke();
+  context.beginPath();
+  context.moveTo(x1, y1);
+  context.lineTo(x2, y2);
+  context.stroke();
+  context.lineWidth = 10;
 }
 
-canvas.onmousedown = function (aaa) {
-  var x = aaa.clientX;
-  var y = aaa.clientY;
-
-  if (eraserEnabled) {
-    wipe = true;
-
-    if (wipe) {
-      content.clearRect(x - 5, y - 5, 10, 10);
-    }
-  } else {
-    using = true;
-    lastPoint = {
-      x: x,
-      y: y
-    };
-  }
+canvas.onmousedown = function (e) {
+  useBrush = true;
+  var x = e.clientX;
+  var y = e.clientY;
+  lastPoint = {
+    x: x,
+    y: y
+  };
 };
 
-canvas.onmousemove = function (aaa) {
-  var x = aaa.clientX;
-  var y = aaa.clientY;
+canvas.onmousemove = function (e) {
+  var x = e.clientX;
+  var y = e.clientY;
+  var newPoint = {
+    x: x,
+    y: y
+  };
 
-  if (eraserEnabled) {
-    if (wipe) {
-      content.clearRect(x - 5, y - 5, 10, 10);
-    }
-  } else {
-    if (using) {
-      var newPoint = {
-        x: x,
-        y: y
-      };
-      drawLine(lastPoint.x, lastPoint.y, x, y);
-      lastPoint = newPoint;
-    }
+  if (useBrush === true) {
+    drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
   }
+
+  lastPoint = newPoint;
 };
 
 canvas.onmouseup = function (aaa) {
-  using = false;
-  wipe = false;
+  useBrush = false;
 };
 },{}],"C:/Users/32774/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -221,7 +192,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8473" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "5167" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
